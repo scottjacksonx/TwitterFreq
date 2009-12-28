@@ -1,5 +1,5 @@
 """
-TwitterFreq - version 1.1
+TwitterFreq - version 1.2
 
 TwitterFreq gets a Twitter user's tweets, distributes them across either hours of the day or days of the week, and then outputs a graph to the terminal.
 
@@ -65,9 +65,18 @@ class TwitterFreq:
 		
 		print "Getting " + self.twitterName + "'s last 200 tweets from Twitter..."
 
-		# get the user's tweets -- the maximum that Twitter will allow is 200.
-		tweets = api.GetUserTimeline(user=self.twitterName, count=200)
-		return tweets
+		try:
+			# get the user's tweets -- the maximum that Twitter will allow is 200.
+			tweets = api.GetUserTimeline(user=self.twitterName, count=200)
+			return tweets
+		except BaseException:
+			print ""
+			print "Error trying to get " + self.twitterName + "'s tweets from Twitter."
+			print "Possible causes: the user has protected their updates, or there is an issue with your internet connection."
+			print ""
+			input = raw_input("Press Return to exit TwitterFreq.")
+			sys.exit()
+			
 
 
 	def makeBuckets(self):
