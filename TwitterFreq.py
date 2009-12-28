@@ -1,24 +1,13 @@
-#########
-# Project: TwitterFreq
-# Author: Scott Jackson
-# Last Updated: August 9, 2009
-# This program gets a user's tweets, sorts them, and then outputs a graph.
-# 
-# Usage: From the shell, type
-#
-#	python TwitterFreq.py username [distribution]
-#	
-#	username: the name of the user whose tweets you want to analyse.
-#	distribution: optional argument, either "daily" or "weekly".
-#
-# Bugs, TODOs, etc:
-#  - awful, hack-y code, little-to-no documentation.
-#
-# Dependencies:
-#  - Python (duh)
-#  - python-twitter (http://code.google.com/p/python-twitter/)
-#
-#########
+"""
+TwitterFreq - version 1.1
+
+TwitterFreq gets a Twitter user's tweets, distributes them across either hours of the day or days of the week, and then outputs a graph to the terminal.
+
+Author: Scott Jackson (http://scottjackson.org)
+
+=====
+hnsh is released under the GPL. Be nice.
+"""
 
 
 
@@ -41,6 +30,7 @@ class TwitterFreq:
 			 "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
 			 "20:00", "21:00", "22:00", "23:00"]
 	
+	# Methods begin.
 	
 	def __init__(self):
 		self.handleArguments()
@@ -51,7 +41,11 @@ class TwitterFreq:
 			
 		self.main()
 		
+		
 	def main(self):
+		"""
+		Main method of the class. Gives a 10,000-foot view of what the program does.
+		"""
 		buckets = self.makeBuckets()
 		
 		self.tweets = self.getTweets()
@@ -63,7 +57,7 @@ class TwitterFreq:
 		
 	def getTweets(self):
 		"""
-		Gets and returns a user's tweets.
+		Gets and returns a user's tweets from Twitter.
 		"""
 		max_id = None
 
@@ -78,7 +72,7 @@ class TwitterFreq:
 
 	def makeBuckets(self):
 		"""
-		Creates buckets to put tweets in.
+		Creates buckets (a dictionary) to put tweets in.
 		"""
 		buckets = {}
 		if self.distribution == "-d":
@@ -90,6 +84,7 @@ class TwitterFreq:
 			for i in range(0,7):
 				buckets[self.weekdays[i]] = 0
 		return buckets
+		
 
 	def sortStatuses(self, buckets):
 		"""
@@ -105,6 +100,7 @@ class TwitterFreq:
 				time = datetime.datetime.fromtimestamp(s.GetCreatedAtInSeconds())
 				buckets[self.weekdays[time.weekday()]] += 1
 		return buckets
+		
 
 	def printGraph(self, buckets):
 		"""
@@ -118,13 +114,11 @@ class TwitterFreq:
 			for i in range(0,24):
 				print self.hours[i] + " " + "|" + "=" * buckets[i]
 		print ""
-			
-	
 
 			
 	def handleArguments(self):
 		"""
-		Parses the command-line arguments given.
+		Parses the command-line arguments given to TwitterFreq.
 		"""
 		if len(sys.argv) > 1:
 			if sys.argv[1] == "-h" or sys.argv[1] == "-help":
@@ -158,7 +152,7 @@ class TwitterFreq:
 
 def paddedDay(d):
 	"""
-	prints out a weekday padded out to 11 characters.
+	Prints out a weekday padded out to 11 characters.
 	"""
 	while len(d) != 11:
 		d += " "
