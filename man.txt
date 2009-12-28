@@ -1,0 +1,7 @@
+TwitterFreq Manual v1.0.
+
+Thanks for downloading TwitterFreq! To use TwitterFreq, cd to the directory containing TwitterFreq.py, twitter.py and the simplejson folder. Once you've done that, run
+
+    $ python TwitterFreq.py -h
+
+to get started.
